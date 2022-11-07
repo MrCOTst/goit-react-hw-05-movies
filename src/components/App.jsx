@@ -74,7 +74,6 @@ export class App extends Component {
       }
     }
     
-
       // if (!this.state.collection.hits && !this.state.collection.totalHits) {
       //   alert(
       //     'Sorry, there are no images matching your search query. Please try again.'
@@ -88,10 +87,6 @@ export class App extends Component {
     // }
   }
 
-  // controlImg = () => {if (!this.state.collection.hits && !this.state.collection.totalHits) {
-  //     NotificationManager.warning(
-  //       'Sorry, there are no images matching your search query. Please try again.'
-  //     ); } };
 
   handleFormSubmit = searchImg => {
     this.setState({ searchImg, startPage: 1 });
@@ -141,8 +136,9 @@ export class App extends Component {
           </button>
         )}
 
-        {isLoading && (
-          <ThreeDots
+        { isLoading && (
+          <div className='Spinner'>
+            <ThreeDots
             height="80"
             width="80"
             radius="9"
@@ -151,7 +147,9 @@ export class App extends Component {
             wrapperStyle={{}}
             wrapperClassName=""
             visible={true}
+            margin="auto"
           />
+          </div>
         )}
         <NotificationContainer />
       </div>
