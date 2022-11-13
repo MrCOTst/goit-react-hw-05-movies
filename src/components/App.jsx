@@ -1,5 +1,8 @@
-import React, { Component } from 'react';
-import { NotificationContainer } from 'react-notifications';
+import { useState, useEffect } from 'react';
+import {
+  NotificationContainer,
+  NotificationManager,
+} from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 import axios from 'axios';
 import './styles.css';
@@ -8,137 +11,101 @@ import Searchbar from './Searchbar';
 import { ThreeDots } from 'react-loader-spinner';
 import ImageGallery from './ImageGallery';
 
-const API_KEY = '30126477-a57d6dba24f5300b01ed82fe1';
-const BASE_URL = 'https://pixabay.com/api/';
+const fetchImg = ({ searchImg = '', startPage = 1, per_page = 12 }) => {
+  return axios
+    .get(
+      `https://pixabay.com/api/?key=30126477-a57d6dba24f5300b01ed82fe1&q=${searchImg}&page=${startPage}&per_page=${per_page}`
+    )
+    .then(response => response.data.hits);
+};
 
-export class App extends Component {
-  state = {
-    searchImg: '',
-    collection: [],
-    largeImg: '',
-    startPage: 1,
-    error: null,
-    isLoading: false,
-  };
+export const App = () => {
+  const [searchImg, setSearchImg] = useState('');
+  const [collection, setCollection] = useState([]);
+  const [largeImg, setLargeImg] = useState('');
+  const [startPage, setStartPage] = useState(1);
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState('false');
 
-  async componentDidUpdate(prevProps, prevState) {
-    const options = {
-      params: {
-        key: API_KEY,
-        q: this.state.searchImg,
-        image_type: 'photo',
-        orientation: 'horizontal',
-        safesearch: 'true',
-        page: this.state.startPage,
-        per_page: 12,
-      },
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-    
+  useEffect(() => {
+    if (!searchImg) return;
 
-    if (prevState.searchImg !== this.state.searchImg) {
+    async function getImages() {
+      setIsLoading(true);
       try {
-        this.setState({ isLoading: true });
-        const response = await axios.get(BASE_URL, options);
-        this.setState({ startPage: 1, collection: response.data.hits });
-        
-        // console.log(response.data.hits);
-        // console.log(this.state.collection)
-      } catch (error) {
-        this.setState({
-          error: 'Failed to upload picture, please try again later',
+        const data = await fetchImg({
+          searchImg: searchImg,
+          startPage: startPage,
         });
+        if (!data.length) {
+          NotificationManager.warning(
+            'Sorry, there are no images matching your search query. Please try again.'
+          );
+        }
+        const foundImages = data.map(
+          ({ id, largeImageURL, webformatURL, tags }) => {
+            return { id, largeImageURL, webformatURL, tags };
+          }
+        );
+        setCollection(prevState => [...prevState, ...foundImages]);
+      } catch (error) {
+        setError(error.message);
       } finally {
-        this.setState({ isLoading: false });
+        setIsLoading(false);
       }
     }
-    
-    if (
-      prevState.startPage !== this.state.startPage &&
-      prevState.searchImg === this.state.searchImg
-    ) {
-      try {
-        this.setState({ isLoading: true });
-        const response = await axios.get(BASE_URL, options);
-        this.setState(prevState => ({
-          collection: [...prevState.collection, ...response.data.hits],
-        }));
-      } catch (error) {
-        this.setState({
-          error: 'Failed to upload picture, please try again later',
-        });
-      } finally {
-        this.setState({ isLoading: false });
-      }
-    }
-    
-      // if (!this.state.collection.hits && !this.state.collection.totalHits) {
-      //   alert(
-      //     'Sorry, there are no images matching your search query. Please try again.'
-      //   ); return
-      //   } 
-    //
-    // if(this.state.collection.length < 1 && this.state.searchImg.length > 0) {
-    //   this.setState ({ error: 'Failed to upload picture, please try again later' });
-    // } else {
-    //   this.setState ({ error: null });
-    // }
-  }
+    getImages();
+  }, [searchImg, startPage]);
 
-
-  handleFormSubmit = searchImg => {
-    this.setState({ searchImg, startPage: 1 });
+  const handleFormSubmit = searchImg => {
+    setSearchImg(searchImg);
+    setStartPage(1);
+    setCollection([]);
+    setError(null);
     // console.log('handleFormSubmit, earchQuery, App:', searchImg)
     // console.log('handleFormSubmit, this.state, App:',this.state.searchImg);
   };
 
-  onImgClick = largeImg => {
-    this.setState({ largeImg });
+  const onImgClick = largeImg => {
+    setLargeImg(largeImg);
     // console.log('onImgClick', largeImg);
     // console.log('currentTarget', largeImg.currentTarget);
     // console.log('target', largeImg.target);
   };
 
-  closeModal = () => {
-    this.setState({ largeImg: '' });
+  const closeModal = () => {
+    setLargeImg('');
   };
 
-  onLoadMore = () => {
-    this.setState(prevState => ({
-      startPage: prevState.startPage + 1,
-    }));
+  const onLoadMore = () => {
+    setStartPage(prevState => prevState + 1);
+    // setCollection( state =>  [ collection , ...state])
 
     // console.log ('startPage', this.state.startPage)
   };
 
-  render() {
-    const { largeImg, searchImg, collection, error, isLoading } = this.state;
+  // const { largeImg, searchImg, collection, error, isLoading } = this.state;
 
-    return (
-      <div className="App">
-        <Searchbar onSubmit={this.handleFormSubmit} />
-        {error && <div>{error}</div>}
+  return (
+    <div className="App">
+      <Searchbar onSubmit={handleFormSubmit} />
+      {error && <div>Failed to upload picture, please try again later</div>}
 
-        <ImageGallery
-          images={this.state.collection}
-          onSelect={this.onImgClick}
-        />
-        {largeImg.length > 0 && (
-          <Modal onClose={this.closeModal}>
-            <img src={largeImg} alt={searchImg} />
-          </Modal>
-        )}
-        {searchImg.length > 0 && collection.length > 0 && (
-          <button className="Button" type="button" onClick={this.onLoadMore}>
-            Load more
-          </button>
-        )}
+      <ImageGallery images={collection} onSelect={onImgClick} />
+      {largeImg.length > 0 && (
+        <Modal onClose={closeModal}>
+          <img src={largeImg} alt={searchImg} />
+        </Modal>
+      )}
+      {searchImg.length > 0 && collection.length > 0 && (
+        <button className="Button" type="button" onClick={onLoadMore}>
+          Load more
+        </button>
+      )}
 
-        { isLoading && (
-          <div className='Spinner'>
-            <ThreeDots
+      {isLoading === true && (
+        <div className="Spinner">
+          <ThreeDots
             height="80"
             width="80"
             radius="9"
@@ -149,10 +116,9 @@ export class App extends Component {
             visible={true}
             margin="auto"
           />
-          </div>
-        )}
-        <NotificationContainer />
-      </div>
-    );
-  }
-}
+        </div>
+      )}
+      <NotificationContainer />
+    </div>
+  );
+};
