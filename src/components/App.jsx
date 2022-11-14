@@ -11,12 +11,26 @@ import Searchbar from './Searchbar';
 import { ThreeDots } from 'react-loader-spinner';
 import ImageGallery from './ImageGallery';
 
-const fetchImg = ({ searchImg = '', startPage = 1, per_page = 12 }) => {
-  return axios
-    .get(
-      `https://pixabay.com/api/?key=30126477-a57d6dba24f5300b01ed82fe1&q=${searchImg}&page=${startPage}&per_page=${per_page}`
-    )
-    .then(response => response.data.hits);
+const API_KEY = '30126477-a57d6dba24f5300b01ed82fe1';
+const BASE_URL = 'https://pixabay.com/api/';
+
+const fetchImg = (searchImg, startPage) => {
+  const options = {
+    params: {
+      key: API_KEY,
+      q: searchImg,
+      image_type: 'photo',
+      orientation: 'horizontal',
+      // safesearch: 'true',
+      page: startPage,
+      per_page: 12,
+    },
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  return axios.get(BASE_URL, options).then(response => response.data.hits);
 };
 
 export const App = () => {
@@ -33,10 +47,7 @@ export const App = () => {
     async function getImages() {
       setIsLoading(true);
       try {
-        const data = await fetchImg({
-          searchImg: searchImg,
-          startPage: startPage,
-        });
+        const data = await fetchImg(searchImg, startPage);
         if (!data.length) {
           NotificationManager.warning(
             'Sorry, there are no images matching your search query. Please try again.'
@@ -79,12 +90,7 @@ export const App = () => {
 
   const onLoadMore = () => {
     setStartPage(prevState => prevState + 1);
-    // setCollection( state =>  [ collection , ...state])
-
-    // console.log ('startPage', this.state.startPage)
   };
-
-  // const { largeImg, searchImg, collection, error, isLoading } = this.state;
 
   return (
     <div className="App">
