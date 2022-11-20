@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 import { HomeText, HomeLink } from './pages/Movie.styled';
 import NoImage from '../images/noImag.png'
@@ -7,7 +7,8 @@ export default function MovieList({ trending }) {
   const location = useLocation();
   const homeItem = trending.map(({ id, title, backdrop_path }) => {
     return (
-      <li key={id}>
+      <>{trending && 
+      (<li key={id}>
         <HomeLink to={`/movies/${id}`} state={{ from: location }}>
           <img
             src={backdrop_path?
@@ -17,14 +18,15 @@ export default function MovieList({ trending }) {
           />
           <HomeText>{title}</HomeText>
         </HomeLink>
-      </li>
+      </li>)}
+      </>
     );
   });
 
   return <ul>{homeItem}</ul>;
 }
 
-MovieList.propTypes = {
-  id: PropTypes.number.isRequired,
-  title: PropTypes.string.isRequired,
-};
+// MovieList.propTypes = {
+//   id: PropTypes.number.isRequired,
+//   title: PropTypes.string.isRequired,
+// };

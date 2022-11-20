@@ -59,10 +59,10 @@ export default function MovieDetails() {
         <h3>Additional information</h3>
         <ul>
           <li>
-            <MovieLink  to="cast">Cast</MovieLink>
+            <MovieLink to="cast" state={{ from: location.state?.from }}>Cast</MovieLink>
           </li>
           <li>
-            <MovieLink  to="reviews">Reviews</MovieLink>
+            <MovieLink  to="reviews" state={{ from: location.state?.from }}>Reviews</MovieLink>
           </li>
         </ul>
         <Suspense fallback={<div>Loading...</div>}>

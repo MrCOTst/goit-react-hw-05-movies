@@ -22,24 +22,30 @@ export default function Reviews() {
       );
   }, [id]);
 
-  //  const {author, avatar_path, content} = reviews;
   return (
     <>
-      {reviews.map(({ author, author_details, content }) => (
-        <>
-          <img
-            src={
-                author_details.avatar_path
-                ? `https://image.tmdb.org/t/p/w500/${author_details.avatar_path}`
-                : NoImage
-            }
-            alt={author}
-            width={'100px'}
-          />
-          <h3>{author} </h3>
-          <p>{content} </p>
-        </>
-      ))}
+    {reviews.length > 0 ? (
+        <ul>
+        {reviews.map(({ id, author, author_details, content }) => (
+          <li key={id} >
+            <img
+              src={
+                  author_details.avatar_path
+                  ? `https://image.tmdb.org/t/p/w500/${author_details.avatar_path}`
+                  : NoImage
+              }
+              alt={author}
+              width={'100px'}
+            />
+            <h3>{author} </h3>
+            <p>{content} </p>
+          </li>
+        ))}
+  
+  </ul>
+    ) : (<p>We do not have any reviews for this movie.</p>)
+
+    }
 
       <NotificationContainer />
     </>

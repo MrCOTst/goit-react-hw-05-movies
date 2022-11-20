@@ -22,7 +22,7 @@ display: inline-block;
   transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   outline: none;
-  $:hover {
+  :hover {
     opacity: 1;
   }
 `;
@@ -33,11 +33,12 @@ display: inline-block;
   width: 100%;
   font: inherit;
   font-size: 20px;
-  border: none;
+  border: solid 2px;
+  border-radius: 4px;
   outline: none;
   padding-left: 4px;
   padding-right: 4px;
-  &::placeholder {
+  ::placeholder {
     font: inherit;
     font-size: 18px;
   }
