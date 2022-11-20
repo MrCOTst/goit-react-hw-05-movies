@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
-import { HomeText, HomeLink } from './Home.styled';
+import { HomeText, HomeLink } from './pages/Movie.styled';
+import NoImage from '../images/noImag.png'
 
 export default function MovieList({ trending }) {
   const location = useLocation();
@@ -9,7 +10,9 @@ export default function MovieList({ trending }) {
       <li key={id}>
         <HomeLink to={`/movies/${id}`} state={{ from: location }}>
           <img
-            src={`https://image.tmdb.org/t/p/w300/${backdrop_path}`}
+            src={backdrop_path?
+              `https://image.tmdb.org/t/p/w300/${backdrop_path}`
+            : NoImage}
             alt={title}
           />
           <HomeText>{title}</HomeText>

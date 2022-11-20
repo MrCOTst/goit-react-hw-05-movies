@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 
-export const HomeList = styled.ul`
+export const MovieList = styled.ul`
 display: flex;
 align-items: center;
 width: 100%;
@@ -24,6 +24,14 @@ export const HomeLink = styled(NavLink)`
 color: black;
 
 &.active {
+  color: blue;
+}
+`;
+
+export const MovieLink = styled(NavLink)`
+color: black;
+
+&.active, &.hover  {
   color: blue;
 }
 `;
