@@ -11,6 +11,7 @@ export const ReviewsUl = styled.ul`
 `;
 export const ReviewsLi = styled.li`
   margin-bottom: 20px;
+  padding: 5px;
   border: 2px solid red;
   border-radius: 8px;
   box-shadow: 0px 4px 3px 0px rgba(246, 0, 0, 0.2),
@@ -24,6 +25,7 @@ export const ReviewsLi = styled.li`
 `;
 export const ReviewsImg = styled.img`
   display: block;
+  margin: 5px 15px;
   height: 50%;
   object-fit: cover;
   overflow: hidden;
@@ -44,5 +46,5 @@ export const ReviewsText = styled.p`
 
 export const Title3 = styled.h3`
   color: white;
-  padding: 5px;
+  padding: 5px 15px;
 `;
