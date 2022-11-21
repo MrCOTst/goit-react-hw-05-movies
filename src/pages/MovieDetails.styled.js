@@ -21,8 +21,8 @@ flex-direction: column;
 
 export const DetailImg = styled.img`
   display: inline-block;
-  width: 40%;
-  height: 50%;
+  max-width: 30wv;
+  max-height: 50hv;
   object-fit: cover;
   overflow: hidden;
   border-radius: 8px;
