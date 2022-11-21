@@ -1,12 +1,13 @@
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { getCast} from 'components/API';
+import { getCast} from 'service/API';
 import {
   NotificationContainer,
   NotificationManager,
 } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 import NoImage from '../images/noImag.png'
+import { CastUl, CastLi, CastImg, CastText } from './Cast.styled';
 
 
 
@@ -26,10 +27,10 @@ export default function Cast() {
 
   return (
     <>
-     <ul>
+     <CastUl>
             {cast.map(({ id, profile_path, name, character }) => (
-              <li key={id}>
-                <img src={
+              <CastLi key={id}>
+                <CastImg src={
           profile_path
             ? `https://image.tmdb.org/t/p/w500/${profile_path}`
             : NoImage
@@ -37,11 +38,11 @@ export default function Cast() {
         alt={name}
         width={'300px'}
       />
-                <p>{name}</p>
-                <p>{character}</p>
-              </li>
+                <CastText>{name}</CastText>
+                <CastText>{character}</CastText>
+              </CastLi>
             ))}
-          </ul>
+          </CastUl>
           <NotificationContainer />
     </>
   );

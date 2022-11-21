@@ -1,6 +1,6 @@
 import { useSearchParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { getMovieBySearch } from 'components/API';
+import { getMovieBySearch } from 'service/API';
 import {
   NotificationContainer,
   NotificationManager,

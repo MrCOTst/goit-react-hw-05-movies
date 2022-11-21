@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
-import { getTrending } from 'components/API';
+import { getTrending } from 'service/API';
 import {
   NotificationContainer,
   NotificationManager,
 } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 import MovieList from 'components/MovieList';
+import {Title1} from './Movie.styled.js'
 
 export default function Home() {
   const [trending, setTrending] = useState([]);
@@ -22,7 +23,7 @@ export default function Home() {
 
   return (
     <main>
-      <h1>Trending today</h1>
+      <Title1>Trending today</Title1>
       <MovieList trending={trending} />
       <NotificationContainer />
     </main>

@@ -6,14 +6,14 @@ const BASE_URL = 'https://api.themoviedb.org/3/';
 export const getTrending = () =>
   axios.get(`${BASE_URL}trending/movie/day${API_KEY}`);
 
-export const getMovieById = (movieId) =>
+export const getMovieById = movieId =>
   axios.get(`${BASE_URL}movie/${movieId}${API_KEY}`);
 
-  export const getMovieBySearch = (query) =>
+export const getMovieBySearch = query =>
   axios.get(`${BASE_URL}search/movie${API_KEY}&query=${query}`);
 
-  export const getCast = (movieId) =>
+export const getCast = movieId =>
   axios.get(`${BASE_URL}movie/${movieId}/credits${API_KEY}`);
 
-  export const getReviews = (movieId) =>
+export const getReviews = movieId =>
   axios.get(`${BASE_URL}movie/${movieId}/reviews${API_KEY}`);
