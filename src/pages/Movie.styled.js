@@ -12,7 +12,7 @@ export const MovieUl = styled.ul`
 
 display: grid;
 max-width: calc(100vw - 48px);
-grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
 grid-gap: 16px;
 padding: 0 50px 0 50px;
 list-style: none;
@@ -31,8 +31,9 @@ border-radius: 8px;
 `
 export const MovieImg = styled.img`
 display: block;
+padding: 1px;
 width: 100%;
-  height: 260px;
+  height: 360px;
   object-fit: cover;
   overflow: hidden;
   border-radius: 8px;

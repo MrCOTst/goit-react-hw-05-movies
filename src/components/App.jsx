@@ -2,6 +2,10 @@ import { lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import NotFound from '../pages/NotFound';
 import SharedLayout from './SharedLayout';
+import {
+  NotificationContainer
+} from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
 
 const Home = lazy(() => import("../pages/Home"));
 const Movies = lazy(() => import("../pages/Movies"));
@@ -11,6 +15,7 @@ const Reviews = lazy(() => import("./Reviews"));
 
 export default function App() {
   return (
+    <>
     <Routes>
       <Route path="/" element={<SharedLayout />}>
         <Route index element={<Home />} />
@@ -21,6 +26,8 @@ export default function App() {
         </Route>
         <Route path="*" element={<NotFound />}></Route>
       </Route>
-    </Routes>
+          </Routes>
+          <NotificationContainer />
+          </>
   );
 }

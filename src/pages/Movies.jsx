@@ -1,11 +1,7 @@
 import { useSearchParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { getMovieBySearch } from 'service/API';
-import {
-  NotificationContainer,
-  NotificationManager,
-} from 'react-notifications';
-import 'react-notifications/lib/notifications.css';
+import { NotificationManager } from 'react-notifications';
 import MovieList from 'components/MovieList';
 import Search from 'components/Search';
 
@@ -42,7 +38,7 @@ export default function Movies() {
     <main>
       <Search onSubmit={updateQuery} />
       <MovieList trending={movies} />
-      <NotificationContainer />
+      
     </main>
   );
 }

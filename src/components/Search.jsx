@@ -1,11 +1,7 @@
 import { useState } from 'react';
 import { BiSearch } from 'react-icons/bi';
-import {
-  NotificationContainer,
-  NotificationManager,
-} from 'react-notifications';
+import { NotificationManager } from 'react-notifications';
 import { SearchForm, SearchButton, SearchInput } from './Search.styled';
-
 
 export default function Search({ onSubmit }) {
   const [query, setQuery] = useState('');
@@ -25,8 +21,7 @@ export default function Search({ onSubmit }) {
   };
 
   return (
-   
-      <>
+    <>
       <SearchForm onSubmit={handleSubmit}>
         <SearchButton type="submit">
           <BiSearch
@@ -47,8 +42,6 @@ export default function Search({ onSubmit }) {
           placeholder="Search movies"
         />
       </SearchForm>
-      <NotificationContainer />
-      </>
-   
+    </>
   );
 }
